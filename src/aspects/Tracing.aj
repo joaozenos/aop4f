@@ -9,6 +9,8 @@ public aspect Tracing {
 	
 	pointcut change(): execution(* *.set*(..));
 	
+	pointcut annotationCut(): @annotation(setCategoriaAnnotation) && execution(* *(..));
+	
 	pointcut changeProduct(): change() && within(Produto);
 	
 	before(): change() {
@@ -22,13 +24,20 @@ public aspect Tracing {
 	 before(): call(* *.set*(..)) {
 	     System.out.println("*****************************************************");
 	       System.out.println("calling: " + thisJoinPoint );
-	        System.out.println("*****************************************************\n");
 	      }
 	    
      after(): changeProduct() {
-	     System.out.println("*****************************************************");
+	     System.out.println("-----------------------------------------------------");
 	       System.out.println("change product: " + thisJoinPoint);
-	        System.out.println("*****************************************************\n");
       }
 
+     after(): annotationCut(){
+    	 System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    	 System.out.println("Annotation: categoria");
+     }
+     
+     before(): preinitialization(*.new(..)) && !within(Tracing){
+    	 System.out.println("#####################################################");
+    	 System.out.println(thisJoinPointStaticPart);
+     }
 }

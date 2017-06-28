@@ -2,6 +2,8 @@ package core;
 
 import java.util.Date;
 
+import aspects.setCategoriaAnnotation;
+
 public class Produto extends Basico{
 
     public Categoria categoria;
@@ -27,6 +29,7 @@ public class Produto extends Basico{
         return validade;
     }
 
+    @setCategoriaAnnotation
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
